@@ -4,6 +4,7 @@
     path: /etc/rancher/rke2
     state: directory
     recurse: yes
+    follow: false
 
 - name: Add pod security admission config file
   vars:
@@ -14,6 +15,7 @@
     mode: '0640'
     owner: root
     group: root
+    follow: false
   when:
     - pod_security_admission_config_file_path is defined
     - pod_security_admission_config_file_path|length != 0
@@ -33,6 +35,7 @@
         name: "/etc/rancher/rke2/pod-security-admission-config.yaml"
         line: '## This is an Ansible managed file, contents will be overwritten ##'
         state: present
+        validate: 'yamllint %s'
       check_mode: yes
       register: ansible_managed_check
       when: stat_result.stat.exists | bool is true
@@ -41,5 +44,6 @@
       ansible.builtin.file:
         path: "/etc/rancher/rke2/pod-security-admission-config.yaml"
         state: absent
+        follow: false
       when:
         - ansible_managed_check.changed | bool is false

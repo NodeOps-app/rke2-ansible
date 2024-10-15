@@ -20,6 +20,7 @@
     path: /var/lib/rancher/rke2/agent/images
     state: directory
     mode: '0644'
+    follow: false
 
 - name: Download images tar files url
   ansible.builtin.get_url:
@@ -35,6 +36,7 @@
     src: "{{ playbook_dir }}/tarball_install/rke2-images.linux-amd64.tar.gz"
     dest: /var/lib/rancher/rke2/agent/images/
     mode: '0644'
+    follow: false
   when: got_images_gz.stat.exists
 
 - name: Add images tar.zst to needed directory if provided
@@ -42,4 +44,5 @@
     src: "{{ playbook_dir }}/tarball_install/rke2-images.linux-amd64.tar.zst"
     dest: /var/lib/rancher/rke2/agent/images/
     mode: '0644'
+    follow: false
   when: got_images_zst.stat.exists

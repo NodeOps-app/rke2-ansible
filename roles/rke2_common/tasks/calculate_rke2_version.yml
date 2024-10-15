@@ -11,7 +11,7 @@
     - name: Get full version name url
       ansible.builtin.uri:
         url: https://update.rke2.io/v1-release/channels/{{ rke2_channel }}
-        follow_redirects: safe
+        follow_redirects: false
         remote_src: true
       register: rke2_version_url
 

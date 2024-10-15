@@ -12,6 +12,7 @@
     mode: '0640'
     owner: root
     group: root
+    validate: 'yamllint %s'
   when: rke2_common_caller_role_name == "server"
   notify: Restart rke2-server
 
@@ -22,5 +23,6 @@
     mode: '0640'
     owner: root
     group: root
+    validate: 'yamllint %s'
   when: rke2_common_caller_role_name == "agent"
   notify: Restart rke2-agent

@@ -49,6 +49,7 @@
     name: firewalld
     state: stopped
     enabled: no
+    force: false
   when:
     - ansible_facts.services["firewalld.service"] is defined
     - ansible_facts.services["firewalld.service"].status != "not-found"

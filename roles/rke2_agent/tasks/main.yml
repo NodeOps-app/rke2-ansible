@@ -19,6 +19,7 @@
     line: "token: {{ hostvars[groups['rke2_servers'][0]].rke2_config_token }}"
     state: present
     insertbefore: BOF
+    validate: 'yamllint %s'
   when:
     - '"token:" not in server_token_check.stdout'
 
@@ -34,6 +35,7 @@
     line: "server: https://{{ kubernetes_api_server_host }}:9345"
     state: present
     insertbefore: BOF
+    validate: 'yamllint %s'
   when:
     - '"server:" not in server_url_check.stdout'
 
@@ -43,3 +45,4 @@
     state: started
     enabled: yes
     daemon_reload: yes
+    force: false

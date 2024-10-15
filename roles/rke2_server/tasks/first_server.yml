@@ -13,6 +13,7 @@
     name: rke2-server
     state: started
     enabled: yes
+    force: false
 
 - name: Wait for k8s apiserver
   ansible.builtin.wait_for:

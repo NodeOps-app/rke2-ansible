@@ -23,6 +23,8 @@
     src: "{{ playbook_dir }}/tarball_install/rke2.linux-amd64.tar.gz"
     dest: "{{ temp_dir.path }}/rke2.linux-amd64.tar.gz"
     mode: '0644'
+    follow: false
+    validate: 'cat %s'
   when:
     - rke2_binary_tarball_check.stat.exists
     - rke2_tarball_url == ""
@@ -109,6 +111,7 @@
     path: "{{ tarball_dir }}"
     state: directory
     recurse: true
+    follow: false
   when: tarball_dir is defined
 
 - name: Final extraction/installation of RKE2 Tar
@@ -148,6 +151,8 @@
         owner: root
         group: root
         remote_src: yes
+        follow: false
+        validate: 'cat %s'
       when:
         - inventory_hostname in groups['rke2_servers']
 
@@ -159,6 +164,8 @@
         owner: root
         group: root
         remote_src: yes
+        follow: false
+        validate: 'cat %s'
       when:
         - inventory_hostname in groups['rke2_servers']
 
@@ -170,6 +177,8 @@
         owner: root
         group: root
         remote_src: yes
+        follow: false
+        validate: 'cat %s'
       when:
         - inventory_hostname in groups.get('rke2_agents', [])
 
@@ -181,15 +190,19 @@
         owner: root
         group: root
         remote_src: yes
+        follow: false
+        validate: 'cat %s'
       when:
         - inventory_hostname in groups.get('rke2_agents', [])
 
     - name: TARBALL | Refreshing systemd unit files
       ansible.builtin.systemd:
         daemon-reload: yes
+        force: false
 
 - name: Remove the temp_dir
   ansible.builtin.file:
     path: "{{ temp_dir.path }}"
     state: absent
+    follow: false
   when: temp_dir.path is defined

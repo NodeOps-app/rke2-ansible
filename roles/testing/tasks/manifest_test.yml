@@ -7,6 +7,7 @@
     owner: root
     group: root
     mode: '0644'
+    validate: 'yamllint %s'
 
 - name: Announce that we are pausing for 1 minute
   ansible.builtin.debug:
